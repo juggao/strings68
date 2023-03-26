@@ -1,0 +1,29 @@
+# comment
+string 1;
+string 2;
+
+1 = "@@@ SOFIA IS GEWELDIG";
+2 = test;
+2 = 1;
+print 2;
+
+if (1 == 2) 
+    print "1 == 2";
+endif
+
+loop
+    shiftl 2;
+    print 2;
+    if (2 == "DIG")
+        break;
+    endif
+endloop
+
+66 = "Je er met een Jantje van Leiden van afmaken!";
+loop
+    shiftr 66;
+    print 66;
+    if (66 == "Je")
+        break;
+    endif
+endloop
