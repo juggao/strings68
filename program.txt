@@ -18,3 +18,12 @@ loop
         break;
     endif
 endloop
+
+66 = "D66 heeft een zware nederlaag geleden!";
+loop
+    shiftr 66;
+    print 66;
+    if (66 == "D")
+        break;
+    endif
+endloop
