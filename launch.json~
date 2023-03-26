@@ -1,0 +1,10 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "linux",
+      "request": "launch",
+      "name": "strings68",
+      "args": ["-f program.txt"],
+    }
+  ]
