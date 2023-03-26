@@ -9,12 +9,7 @@ from dist.strings68Visitor import strings68Visitor
 vars = {}
 loopend = 0
 
-def get_username():
-    from pwd import getpwuid
-    from os import getuid
-    return getpwuid(getuid())[ 0 ]
 
- 
  
 class MyVisitor(strings68Visitor):
 
@@ -167,22 +162,6 @@ class MyVisitor(strings68Visitor):
         return self.visitChildren(ctx)
 
 
-
-def handleExpression(expr):
-    adding = True
-    value = 0
-    for child in expr.getChildren():
-        if isinstance(child, antlr4.tree.Tree.TerminalNode):
-            adding = child.getText() == "+"
-        else:
-            multValue = handleMultiply(child)
-            if adding:
-                value += multValue
-            else:
-                value -= multValue
-
-    print("Parsed expression %s has value %s" % (expr.getText(), value))
-    
 if __name__ == "__main__":
    
     parser = argparse.ArgumentParser()
