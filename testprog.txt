@@ -7,6 +7,8 @@ string 2;
 2 = 1;
 print 2;
 
+print "FILO";
+
 if (1 == 2) 
     print "1 == 2";
 endif
