@@ -11,7 +11,8 @@ vars = {}
 loopend = 0
 progargs=[]
 
- 
+
+
 class MyVisitor(strings68Visitor):
 
     # Visit a parse tree produced by strings68Parser#program.
@@ -105,31 +106,6 @@ class MyVisitor(strings68Visitor):
         
         return self.visitChildren(ctx)
 
-    # Visit a parse tree produced by strings68Parser#assignstmt.
-    def visitAssignstmt(self, ctx:strings68Parser.AssignstmtContext):
-    #    name = ctx.NAME().symbol.text
-        name = ctx.start.text.strip('\"')
-        if ctx.getChildCount() > 4:
-            val = ctx.getChild(3).start.text.strip('\"')
-        else:   
-            val = ctx.getChild(2).start.text.strip('\"')
-
-        n = val.find("%")
-        if n != -1 and len(progargs) > 0:
-            spl = val.split(" ")
-            val = spl[0].replace("%","")
-            i = int(val)
-            if len(progargs) >= i:
-                val = progargs[i]
-                
-
-        if name in vars and val in vars:
-            updateval = vars[val]
-            vars.update({name:updateval})
-        else: 
-            vars[name] = val
-        return self.visitChildren(ctx)
-
     def visitToupperstmt(self, ctx:strings68Parser.ToupperstmtContext):
         name = ctx.getChild(1).start.text
         if name in vars:
@@ -160,12 +136,71 @@ class MyVisitor(strings68Visitor):
             val = valtemp
             vars[v]=val
         return self.visitChildren(ctx)
-    
-    # Visit a parse tree produced by strings68Parser#expression.
-    def visitExpression(self, ctx:strings68Parser.ExpressionContext):
+
+    # Visit a parse tree produced by strings68Parser#assignstmt.
+    def visitAssignstmt(self, ctx:strings68Parser.AssignstmtContext):
+    #    name = ctx.NAME().symbol.text
+        val = None
+        ectx = ctx.expression()
+        if ectx is not None:
+            val = self.visitExpression(ectx)
+           
+        name = ctx.start.text.strip('\"')
+        if val is None and ctx.getChildCount() > 4:
+            val = ctx.getChild(3).start.text.strip('\"')
+        else:
+            if val is None:   
+                val = ctx.getChild(2).start.text.strip('\"')
+
+        if val is None:
+             return self.visitChildren(ctx)
+        
+        val = val.strip('\"')
+
+        # replace progargs
+        n = val.find("%")
+        if n != -1 and len(progargs) > 0:
+            spl = val.split(" ")
+            for x in spl:
+                if x.find("%")!=-1:
+                    val = x.replace("%","")
+                    i = int(val)
+                    if len(progargs) >= i:
+                        val = progargs[i]
+
+        # replace variables        
+        n = val.find("$")
+        if n != -1 :
+            spl = val.split(" ")
+            for y in spl:
+                if y[0] == '$':
+                    b = y[1:].strip(" ")
+                    y = y.strip(" ")
+                    pb = ""
+                    if b in vars:
+                        pb = vars[b]
+                    val = val.replace(y,pb)
+            
+        if name in vars and val in vars:
+            updateval = vars[val]
+            vars.update({name:updateval})
+        else: 
+            vars[name] = val
+
         return self.visitChildren(ctx)
 
-
+    # Visit a parse tree produced by strings68Parser#expression.
+    def visitExpression(self, ctx:strings68Parser.ExpressionContext):
+        if len(ctx.children) == 3:
+            if getattr(ctx.children[1], "symbol", None):
+                op = ctx.children[1].symbol.text
+                if op == '+':
+                    l = ctx.children[0].start.text.strip('\"')
+                    r = ctx.children[2].start.text.strip('\"')
+                return l + r
+        return self.visitChildren(ctx)
+     
+ 
     # Visit a parse tree produced by strings68Parser#term.
     def visitTerm(self, ctx:strings68Parser.TermContext):
         return self.visitChildren(ctx)
@@ -175,6 +210,9 @@ class MyVisitor(strings68Visitor):
     def visitIdentifier(self, ctx:strings68Parser.IdentifierContext):
         return self.visitChildren(ctx)
 
+    # Visit a parse tree produced by strings68Parser#stringchars.
+    def visitStringchars(self, ctx:strings68Parser.StringcharsContext):
+        return self.visitChildren(ctx)
 
     # Visit a parse tree produced by strings68Parser#integer.
     def visitString(self, ctx:strings68Parser.StringContext):
