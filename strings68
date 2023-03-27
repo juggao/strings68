@@ -9,7 +9,7 @@ from dist.strings68Visitor import strings68Visitor
 
 vars = {}
 loopend = 0
-
+progargs=[]
 
  
 class MyVisitor(strings68Visitor):
@@ -84,6 +84,7 @@ class MyVisitor(strings68Visitor):
     # Visit a parse tree produced by strings68Parser#printstmt.
     def visitPrintstmt(self, ctx:strings68Parser.PrintstmtContext):
         v = ctx.getChild(1).start.text.strip('\"')
+        #replace $vars with actual string values
         n = v.find("$")
         if n != -1 :
             spl = v.split(" ")
@@ -112,6 +113,16 @@ class MyVisitor(strings68Visitor):
             val = ctx.getChild(3).start.text.strip('\"')
         else:   
             val = ctx.getChild(2).start.text.strip('\"')
+
+        n = val.find("%")
+        if n != -1 :
+            spl = val.split(" ")
+            val = spl[0].replace("%","")
+            i = int(val)
+            if len(progargs) >= i:
+                val = progargs[i]
+                
+
         if name in vars and val in vars:
             updateval = vars[val]
             vars.update({name:updateval})
@@ -172,13 +183,21 @@ class MyVisitor(strings68Visitor):
 
 if __name__ == "__main__":
    
-    parser = argparse.ArgumentParser(description="strings68 experimental strings only language version 0.01")
-    parser.add_argument('-f', type=str,required=True) 
+    parser = argparse.ArgumentParser(formatter_class = argparse.RawDescriptionHelpFormatter,description="strings68 experimental strings only language version 0.01")
+    parser.add_argument("-f","--file", type=str,required=True) 
+    parser.add_argument("-p","--pargs", type=str,required=False,help="prog args") 
     args = parser.parse_args()
    
+    print (args)
+
+    s = args.pargs
+    f = args.file
+
+    progargs = s.split()
+
     # data =  InputStream(input(">>> "))
     # lexer
-    lexer = strings68Lexer(FileStream(args.f))
+    lexer = strings68Lexer(FileStream(f))
     stream = CommonTokenStream(lexer)
     # parser
     parser = strings68Parser(stream)
