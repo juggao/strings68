@@ -84,7 +84,7 @@ class MyVisitor(strings68Visitor):
     # Visit a parse tree produced by strings68Parser#printstmt.
     def visitPrintstmt(self, ctx:strings68Parser.PrintstmtContext):
         s = ctx.getText()
-        v = ctx.getChild(1).start.text
+        v = ctx.getChild(1).start.text.strip('\"')
         if v in vars:
             print(vars[v])
         else:
