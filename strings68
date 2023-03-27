@@ -84,10 +84,24 @@ class MyVisitor(strings68Visitor):
     # Visit a parse tree produced by strings68Parser#printstmt.
     def visitPrintstmt(self, ctx:strings68Parser.PrintstmtContext):
         v = ctx.getChild(1).start.text.strip('\"')
-        if v in vars:
-            print(vars[v])
+        n = v.find("$")
+        if n != -1 :
+            spl = v.split(" ")
+            for y in spl:
+                if y[0] == '$':
+                    b = y[1:].strip(" ")
+                    y = y.strip(" ")
+                    pb = ""
+                    if b in vars:
+                        pb = vars[b]
+                    v = v.replace(y,pb)   
+            print(v) 
         else:
-            print(v)
+            if v in vars:
+                print(vars[v])
+            else:
+                print(v)
+        
         return self.visitChildren(ctx)
 
     # Visit a parse tree produced by strings68Parser#assignstmt.
