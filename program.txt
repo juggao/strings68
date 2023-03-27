@@ -4,10 +4,11 @@
 string 1;
 string 2;
 
-1 = "%0";
-2 = test;
-2 = 1;
-print "2: $2 1: $1";
+1 = "abracadabra" + "extra";
+2 = "MyString" + ": %0";
+
+print "2: $2"; 
+print "1: $1";
 
 if (1 == 2) 
     print "$1 == $2";
