@@ -161,13 +161,22 @@ class MyVisitor(strings68Visitor):
         n = val.find("%")
         if n != -1 and len(progargs) > 0:
             spl = val.split(" ")
+            z = 0
             for x in spl:
-                if x.find("%")!=-1:
-                    val = x.replace("%","")
-                    i = int(val)
+                p = x.rfind("%")
+                if (p != -1):
+                    g = x[p:p+2]
+                    x = x.replace("%","")
+                    i = int(x)
                     if len(progargs) >= i:
-                        val = progargs[i]
-
+                        spl[z] = progargs[i]
+                        val = val.replace(g,spl[z])
+                z = z + 1
+            
+            #val = ""    
+            #for x in spl:
+            #    val = val + x
+                
         # replace variables        
         n = val.find("$")
         if n != -1 :
