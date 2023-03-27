@@ -115,7 +115,7 @@ class MyVisitor(strings68Visitor):
             val = ctx.getChild(2).start.text.strip('\"')
 
         n = val.find("%")
-        if n != -1 :
+        if n != -1 and len(progargs) > 0:
             spl = val.split(" ")
             val = spl[0].replace("%","")
             i = int(val)
@@ -193,7 +193,8 @@ if __name__ == "__main__":
     s = args.pargs
     f = args.file
 
-    progargs = s.split()
+    if s is not None:
+        progargs = s.split()
 
     # data =  InputStream(input(">>> "))
     # lexer
