@@ -4,8 +4,8 @@
 string 1;
 string 2;
 
-1 = "abracadabra" + "extra";
-2 = "MyString" + ": %0";
+1 = "abracadabra" + " extra";
+2 = "MyString " + ": %0";
 
 print "2: $2"; 
 print "1: $1";
@@ -14,3 +14,10 @@ if (1 == 2)
     print "$1 == $2";
 endif
 
+#loop
+#    shiftl 2;
+#    print 2;
+#    if (2 == "po")
+#        break;
+#    endif
+#endloop
