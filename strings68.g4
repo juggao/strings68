@@ -29,6 +29,7 @@ statement      :
              | shiftlstmt
              | shiftrstmt
              | breakstmt
+             | maskstmt
                ;
 
 // Parse rule for if statements
@@ -69,7 +70,10 @@ shiftlstmt      :
 shiftrstmt      : 
                SHIFTR term SEMICOLON
                ;     
-
+maskstmt        :
+               MASK term term SEMICOLON
+               ;
+               
 // Parse rule for assignment statements
 
 assignstmt      : 
@@ -81,8 +85,7 @@ assignstmt      :
 
 expression      : 
                 term
-              | 
-                term PLUS term 
+              | term PLUS term 
                 ;
 
 // Parse rule for terms
@@ -114,12 +117,14 @@ BREAK:  'break';
 CONTINUE: 'continue';
 SHIFTL: 'shiftl'; 
 SHIFTR: 'shiftr';
+MASK: 'mask';
 
 // Operators
 PLUS: '+';
 EQUAL: '==';
 ASSIGN: '=';
 NOTEQUAL: '!=';
+PERC: '%';
 
 // Semicolon and parentheses
 SEMICOLON: ';';
