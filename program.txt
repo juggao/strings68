@@ -4,6 +4,12 @@
 string 1;
 string 2;
 
+1 = "ABCDEFG";
+2 = "BBCDXXX";
+mask 1 2 ; 
+
+print 1;
+
 1 = "abracadabra" + " extra";
 2 = "MyString " + ": %0";
 
