@@ -12,6 +12,15 @@ loopend = 0
 progargs=[]
 
 
+def mask(a, b):
+    start_index = 0
+    for c in b:
+        for i in range(start_index, len(a)):
+            if c == a[i]:
+                a = "".join((a[:i], "*", a[i+1:]))
+                start_index = i+1
+                break
+    return a
 
 class MyVisitor(strings68Visitor):
 
@@ -135,6 +144,16 @@ class MyVisitor(strings68Visitor):
             valtemp = val[:N-1]
             val = valtemp
             vars[v]=val
+        return self.visitChildren(ctx)
+ 
+    # Visit a parse tree produced by strings68Parser#maskstmt.
+    def visitMaskstmt(self, ctx:strings68Parser.MaskstmtContext):
+        v = ctx.getChild(1).start.text
+        w = ctx.getChild(2).start.text
+        if v in vars:
+            if w in vars:
+                r = mask(vars[v],vars[w])
+                vars[v] = r             
         return self.visitChildren(ctx)
 
     # Visit a parse tree produced by strings68Parser#assignstmt.
