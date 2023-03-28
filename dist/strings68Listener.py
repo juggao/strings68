@@ -107,6 +107,15 @@ class strings68Listener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by strings68Parser#maskstmt.
+    def enterMaskstmt(self, ctx:strings68Parser.MaskstmtContext):
+        pass
+
+    # Exit a parse tree produced by strings68Parser#maskstmt.
+    def exitMaskstmt(self, ctx:strings68Parser.MaskstmtContext):
+        pass
+
+
     # Enter a parse tree produced by strings68Parser#assignstmt.
     def enterAssignstmt(self, ctx:strings68Parser.AssignstmtContext):
         pass

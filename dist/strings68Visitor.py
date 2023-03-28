@@ -64,6 +64,11 @@ class strings68Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by strings68Parser#maskstmt.
+    def visitMaskstmt(self, ctx:strings68Parser.MaskstmtContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by strings68Parser#assignstmt.
     def visitAssignstmt(self, ctx:strings68Parser.AssignstmtContext):
         return self.visitChildren(ctx)
