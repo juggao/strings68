@@ -99,5 +99,10 @@ class strings68Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by strings68Parser#bool.
+    def visitBool(self, ctx:strings68Parser.BoolContext):
+        return self.visitChildren(ctx)
+
+
 
 del strings68Parser

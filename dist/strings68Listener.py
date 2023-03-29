@@ -170,5 +170,14 @@ class strings68Listener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by strings68Parser#bool.
+    def enterBool(self, ctx:strings68Parser.BoolContext):
+        pass
+
+    # Exit a parse tree produced by strings68Parser#bool.
+    def exitBool(self, ctx:strings68Parser.BoolContext):
+        pass
+
+
 
 del strings68Parser
