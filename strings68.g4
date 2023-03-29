@@ -15,6 +15,7 @@ program       :
 
 declaration   : 
               STRING NAME SEMICOLON 
+            | BOOL NAME SEMICOLON
               ;
 
 // Parse rule for statements
@@ -73,12 +74,13 @@ shiftrstmt      :
 maskstmt        :
                MASK term term SEMICOLON
                ;
-               
+
 // Parse rule for assignment statements
 
 assignstmt      : 
                 NAME ASSIGN expression SEMICOLON
               | NAME ASSIGN LPAREN expression RPAREN SEMICOLON
+              | NAME ASSIGN CONTAINS term STRINGCHARS SEMICOLON
                 ;
 
 // Parse rule for expressions
@@ -94,6 +96,7 @@ term          :
               identifier
             | string
             | stringchars
+            | bool
               ;
 
 // Parse rule for identifiers
@@ -101,6 +104,7 @@ term          :
 identifier   : NAME ;
 stringchars  : STRINGCHARS ; 
 string       : STRING;
+bool         : 'TRUE' | 'FALSE' ;
 
 // Reserved Keywords
 ////////////////////////////////
@@ -118,6 +122,8 @@ CONTINUE: 'continue';
 SHIFTL: 'shiftl'; 
 SHIFTR: 'shiftr';
 MASK: 'mask';
+CONTAINS: 'contains';
+BOOL: 'bool';
 
 // Operators
 PLUS: '+';
