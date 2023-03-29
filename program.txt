@@ -3,11 +3,22 @@
 # program args: %0, %1 ...
 string 1;
 string 2;
+bool b;
 
-1 = "ABCDEFG";
+
+
+1 = "ABCDFFF";
 2 = "BBCDXXX";
+3 = "$1";
+
+b = contains 1 "FXF";
+print b;
+
+b = contains 1 "FFF";
+print b;
 mask 1 2 ; 
 
+print 3;
 print 1;
 
 1 = "abracadabra" + " extra";
