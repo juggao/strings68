@@ -22,6 +22,19 @@ def mask(a, b):
                 break
     return a
 
+def containsFunc(ctx:strings68Parser.AssignstmtContext):
+    #print("containsFunc", ctx)
+    s = ctx.getChild(3).start.text
+    subs = ctx.getChild(4).symbol.text.strip('\"') 
+    if s in vars:
+        sst = vars[s]
+    else:
+        return False
+    if subs in sst:
+        return True
+    else:
+        return False
+    
 class MyVisitor(strings68Visitor):
 
     # Visit a parse tree produced by strings68Parser#program.
@@ -166,9 +179,16 @@ class MyVisitor(strings68Visitor):
            
         name = ctx.start.text.strip('\"')
         if val is None and ctx.getChildCount() > 4:
+            if ctx.getChild(2).symbol.text == "contains":
+                b = containsFunc(ctx)
+                if b == True: 
+                    vars[name] = "TRUE"
+                else:
+                    vars[name] = "FALSE"                   
+                return self
             val = ctx.getChild(3).start.text.strip('\"')
         else:
-            if val is None:   
+            if val is None: # and getattr(ctx,"getChild", None):   
                 val = ctx.getChild(2).start.text.strip('\"')
 
         if val is None:
