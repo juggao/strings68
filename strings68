@@ -8,6 +8,7 @@ from dist.strings68Parser import strings68Parser
 from dist.strings68Visitor import strings68Visitor
 
 vars = {}
+funcs = {}
 loopend = 0
 progargs=[]
 
@@ -46,8 +47,19 @@ class MyVisitor(strings68Visitor):
     def visitDeclaration(self, ctx:strings68Parser.DeclarationContext):
         name = ctx.start.text
         vars[name] = ""
+        if ctx.getChild(2).symbol.text == "(":
+            funcs[name] = ctx    
+            return self
         return self.visitChildren(ctx)
 
+    # Visit a parse tree produced by strings68Parser#function.
+    def visitFunction(self, ctx:strings68Parser.FunctionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by strings68Parser#arguments.
+    def visitArguments(self, ctx:strings68Parser.ArgumentsContext):
+        return self.visitChildren(ctx)
 
     # Visit a parse tree produced by strings68Parser#statement.
     def visitStatement(self, ctx:strings68Parser.StatementContext):
@@ -284,7 +296,7 @@ if __name__ == "__main__":
 
     # data =  InputStream(input(">>> "))
     # lexer
-    lexer = strings68Lexer(FileStream(f))
+    lexer = strings68Lexer(FileStream(f, encoding='utf-8'))
     stream = CommonTokenStream(lexer)
     # parser
     parser = strings68Parser(stream)

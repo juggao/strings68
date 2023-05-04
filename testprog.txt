@@ -2,7 +2,7 @@
 string 1;
 string 2;
 
-1 = "@@@ SOFIA IS GEWELDIG";
+1 = "☰☰ SOFIA IS GEWELDIG (AI-IA) MAAR AIFOS OOK ☰☰";
 2 = test;
 2 = 1;
 print 2;
@@ -16,16 +16,16 @@ endif
 loop
     shiftl 2;
     print 2;
-    if (2 == "DIG")
+    if (2 == "☰☰")
         break;
     endif
 endloop
 
-66 = "Je er met een Jantje van Leiden van afmaken!";
+66 = "☰☰ De ecomodernist en de aimodernisten ☰☰";
 loop
     shiftr 66;
     print 66;
-    if (66 == "Je")
+    if (66 == "☰☰")
         break;
     endif
 endloop
